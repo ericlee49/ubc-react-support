@@ -17,17 +17,6 @@ import gql from 'graphql-tag';
 //     }
 // `;
 
-// const ONBOARDING_QUERY = gql `
-//     query x($x:String!) {
-//         onboardings(where:{tag_contains: $x}) {
-//             _id
-//             title
-//             content
-//         }
-//     }
-// `;
-
-
 const ONBOARDING_QUERY = gql `
  query Onboardings ($tag: String!) {
         onboardings(where:{tag_contains: $tag}) {
@@ -38,7 +27,7 @@ const ONBOARDING_QUERY = gql `
     }
 `;
 
-// Horizontal List for filtering userTypes
+// Horizontal List-menu for filtering userTypes
 function SelectOnBoardType (props) {
     var userType = ['Student' , 'Staff', 'Volunteer' ,'Faculty'];
     return (
@@ -63,6 +52,7 @@ function SelectOnBoardType (props) {
 function DocsGrid (props) {
     return (
         props.docs.map((currDoc) => (
+            <div>
             <Container textAlign='justified' key={currDoc._id}>
                 <Segment raised>
                     <h3>{currDoc.title}</h3>
@@ -70,9 +60,9 @@ function DocsGrid (props) {
                     {/* <p>{currDoc.content}</p> */}
                     <ReactMarkdown source={currDoc.content} />
                 </Segment>
-
-                
             </Container>
+            <Divider hidden/>
+            </div>
         ))
         
     )
@@ -153,7 +143,7 @@ class OnBoarding extends React.Component {
                 <SelectOnBoardType 
                     selectedUserType={this.state.selectedUserType}
                     onSelect={this.updateUserType}/>
-
+                    
                 <Query query = {ONBOARDING_QUERY} variables={{tag}} >
                     {
                         ({loading, error, data}) =>
