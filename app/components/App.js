@@ -44,7 +44,15 @@ class App extends React.Component {
   render() {
     // console.log(this.props);
     return (
+
       <div>
+        <style>
+        {`
+          #footerstyle {
+            background-color: #002145
+          }
+        `}
+        </style>
         <Segment
             inverted
             textAlign='center'
@@ -65,6 +73,10 @@ class App extends React.Component {
             <Route render={() => <div>Page not found</div>} />
           </Switch>
         </Container>
+        <Segment style={{ padding: '5em 0em'}} id='footerstyle'>
+        </Segment>  
+        
+        
 
       </div>
 

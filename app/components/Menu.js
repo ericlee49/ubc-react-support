@@ -1,11 +1,13 @@
 import React from 'react';
-import {Menu, Segment, Button} from 'semantic-ui-react';
+import {Menu, Segment, Button, Container, Header} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
 import {AuthButton, basicAuth} from '../utils/auth.js'
 
 class MainMenu extends React.Component {
     render() {
         return (
+            <div>
+
             <Menu inverted fixed='top'>
                 <Menu.Item 
                     name='home' 
@@ -41,6 +43,8 @@ class MainMenu extends React.Component {
 
                 <AuthButton/>                                         
             </Menu>
+
+            </div>
 
 
 
