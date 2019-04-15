@@ -9,7 +9,7 @@ import AccountRequestForm from './AccountRequestForm';
 import AccountRequests from './AccountRequests';
 import Login from './Login';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import {Container, Segment, Grid, Header, List, Divider} from 'semantic-ui-react';
+import {Container, Segment, Grid, Header, List, Divider, Image} from 'semantic-ui-react';
 import {basicAuth} from '../utils/auth.js'
 
 // export const fakeAuth = {
@@ -50,6 +50,8 @@ class App extends React.Component {
         {`
           #footerstyle {
             background-color: #002145;
+            margin-top: 100px;
+            padding-top: 35px;
           }
         `}
         </style>
@@ -78,13 +80,12 @@ class App extends React.Component {
         <Segment
             inverted
             vertical
-            style={{ margin: '5em 0em 0em', padding: '5em 0em' }}
             id='footerstyle'
         >
           <Container textAlign='left'>
             <Grid divided inverted stackable>
               <Grid.Column width={7}>
-                <Header inverted as='h4' content='The University of British Columbia' />
+                <Image src='app/assets/ubc_full_logo.png' size='medium' />
               </Grid.Column>
               <Grid.Column width={4}>
                 <Header inverted as='h4' content='About UBC' />
