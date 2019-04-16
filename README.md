@@ -1,4 +1,9 @@
 # ubc-react-support
+
+## Description:
+This application is the front end portion for an internal support website.  It includes components to cover on-boarding processes, forms for account submissions, and general IT-Support.
+
+## Before you start:
 When downloading the project be sure to run:
 ```
 npm install 
@@ -17,3 +22,11 @@ The project current uses webpack to bundle the code, and compiles it into the 'd
 npm run build
 ```
 Then place the browser ready files onto your server
+
+## Quick Documentation:
+
+### Webpack
+
+### React Router
+
+### React Semantic UI
