@@ -18,7 +18,7 @@ class ITSupport extends React.Component {
                 <Icon name='desktop' />
                 <Header.Content>
                 Department Support
-                <Header.Subheader>Find solutions to your queries</Header.Subheader>
+                <Header.Subheader>Microbiology & Immunology</Header.Subheader>
                 </Header.Content>
             </Header>                
             <Grid>
