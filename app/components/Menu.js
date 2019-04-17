@@ -1,23 +1,60 @@
 import React from 'react';
-import {Menu, Segment, Button, Container, Header} from 'semantic-ui-react';
+import {Menu, Segment, Button, Container, Grid, Visibility, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
-import {AuthButton, basicAuth} from '../utils/auth.js'
+import {AuthButton, basicAuth} from '../utils/auth.js';
+import Header from './Header';
+
+
+function StyleComponent() {
+    return (
+        <style>
+        {`
+        #menuStyle {
+            background-color: #002145;
+            border-radius: 0px;
+            boxShadow: 'none';
+            margin-top: 0px;
+            transition: 'box-shadow 0.5s ease, padding 0.5s ease';
+        }
+        `}
+        </style>
+    )
+}
+
 
 class MainMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuFixed: false,
+        }
+        this.stickTopMenu = this.stickTopMenu.bind(this);
+        this.unStickTopMenu = this.unStickTopMenu.bind(this);
+    }
+
+    stickTopMenu(){
+        this.setState(() => ({menuFixed: true}))
+    }   
+
+    unStickTopMenu(){
+        this.setState(() => ({menuFixed: false}))
+    }   
     render() {
+        const {menuFixed} = this.state;
         return (
             <div>
-            <style>
-            {`
-            #menuStyle {
-                background-color: #002145;
-                border-radius: 0px;
-                boxShadow: 'none';
-                margin-top: 0px;
-            }
-            `}
-            </style>                
-            <Menu inverted id='menuStyle'>
+            <StyleComponent/>    
+            <Visibility
+                onBottomPassed={this.stickTopMenu}
+                onBottomVisible={this.unStickTopMenu}
+                once={false}
+            >
+                <Header />
+            </Visibility>                            
+            <Menu 
+                inverted 
+                fixed={menuFixed ? 'top' : undefined}
+                id='menuStyle'>
                 <Container textAlign='left'>
                     <Menu.Item 
                         name='home' 
@@ -55,6 +92,7 @@ class MainMenu extends React.Component {
                 </Container>
                                       
             </Menu>
+    
 
             </div>
 

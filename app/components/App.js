@@ -10,8 +10,8 @@ import AccountRequests from './AccountRequests';
 import Login from './Login';
 import ITSupport from './ITSupport';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import {Container, Segment, Grid, Header, List, Divider, Image} from 'semantic-ui-react';
-import {basicAuth} from '../utils/auth.js'
+import {Container, Segment, Grid, Header, List, Divider, Image, Visibility} from 'semantic-ui-react';
+import {basicAuth} from '../utils/auth.js';
 
 // export const fakeAuth = {
 //   isAuthenticated: false,
@@ -45,22 +45,7 @@ function StyleComponent() {
   )
 }
 
-//Header:
-function HeaderComponent() {
-  return (
-    <Container>
-      <Grid divided>
-      <Divider/>
-      <Grid.Column width={2}>
-        <Image src='app/assets/ubc_crest_blue.png' size='mini' centered style={{ marginTop: '2em' , marginBottom: '2em' }}/>
-      </Grid.Column>
-      <Grid.Column width={7}>
-        <Image src='app/assets/ubc_wordmark_blue.png' size='big' />
-      </Grid.Column>
-      </Grid>
-    </Container>    
-  )
-}
+
 
 //Footer:
 function AppFooter() {
@@ -132,13 +117,14 @@ const PrivateRoute = ({component: Component, ...rest}) => (
 
 
 class App extends React.Component {
+
   render() {
     // console.log(this.props);
     return (
       
       <div>
         <StyleComponent />
-        <HeaderComponent />
+        {/* <HeaderComponent /> */}
         <MainMenu /> 
 
         <Container style={{ marginTop: '7em' }}>

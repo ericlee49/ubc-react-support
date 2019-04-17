@@ -2,7 +2,7 @@
 import React from 'react';
 import {Segment, Dimmer, Loader, List, Container, Divider, Tab} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import {fetchOnBoardingContent} from '../utils/api';
+// import {fetchOnBoardingContent} from '../utils/api';
 import ReactMarkdown from 'react-markdown';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -143,7 +143,7 @@ class OnBoarding extends React.Component {
                 <SelectOnBoardType 
                     selectedUserType={this.state.selectedUserType}
                     onSelect={this.updateUserType}/>
-                    
+
                 <Query query = {ONBOARDING_QUERY} variables={{tag}} >
                     {
                         ({loading, error, data}) =>
