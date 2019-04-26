@@ -187,34 +187,34 @@ class AccountRequest extends React.Component {
                     variables={{firstname, _id, lastname, email, title, status, laboffice}}
                     onCompleted={() => this.close()}
                 >
-                {(updateAccountrequest) => (
-                <Modal size='tiny' open={open} onClose={this.close} closeIcon>
-                    <Modal.Header>Request Details</Modal.Header>
-                    <Modal.Content>                        
-                        <Form>
-                            <Form.Input fluid label='Request id'>{_id}</Form.Input>
-                            <Form.Input fluid label='First name' name='firstname' value={firstname} onChange={this.handleChange}/>
-                            <Form.Input fluid label='Last name' name='lastname' value={lastname} onChange={this.handleChange}/>  
-                            <Form.Input fluid label='Lab/Office' name='laboffice' value={laboffice} onChange={this.handleChange}/>
-                            <Form.Input fluid label='Email' name='email' value={email} onChange={this.handleChange}/>
-                            <Form.Input fluid label='Title' name='title' value={title} onChange={this.handleChange}/>
-                            <Form.Input fluid label='Status'>
-                                <Checkbox toggle color='red' checked={status} onChange={this.toggle}/>
-                                {status ? 
-                                    <Label circular color='green'>Complete</Label> 
-                                    : <Label circular color='red'>Pending</Label>
-                                }
-                            </Form.Input>
+                    {(updateAccountrequest) => (
+                    <Modal size='tiny' open={open} onClose={this.close} closeIcon>
+                        <Modal.Header>Request Details</Modal.Header>
+                        <Modal.Content>                        
+                            <Form>
+                                <Form.Input fluid label='Request id'>{_id}</Form.Input>
+                                <Form.Input fluid label='First name' name='firstname' value={firstname} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Last name' name='lastname' value={lastname} onChange={this.handleChange}/>  
+                                <Form.Input fluid label='Lab/Office' name='laboffice' value={laboffice} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Email' name='email' value={email} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Title' name='title' value={title} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Status'>
+                                    <Checkbox toggle color='red' checked={status} onChange={this.toggle}/>
+                                    {status ? 
+                                        <Label circular color='green'>Complete</Label> 
+                                        : <Label circular color='red'>Pending</Label>
+                                    }
+                                </Form.Input>
 
-                        </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button color='black' onClick={updateAccountrequest}>
-                            Submit Changes
-                        </Button>
-                    </Modal.Actions>
-                </Modal>
-                )}               
+                            </Form>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button color='black' onClick={updateAccountrequest}>
+                                Submit Changes
+                            </Button>
+                        </Modal.Actions>
+                    </Modal>
+                    )}               
 
                 </Mutation>
                 <h3>M&I Account Requests</h3>

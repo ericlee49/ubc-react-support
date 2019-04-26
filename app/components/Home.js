@@ -6,7 +6,7 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <h1>Welcome to the UBC M&I Internal Support Site</h1>
+                <h1>Welcome to the UBC M&I Support Site</h1>
 
                 <Divider
                     as='h4'

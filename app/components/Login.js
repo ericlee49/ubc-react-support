@@ -37,7 +37,7 @@ class Login extends React.Component {
 
         return (
             axios
-            .post('http://localhost:1337/auth/local', {
+            .post('http://it.microbiology.ubc.ca:1337/auth/local', {
                 identifier: this.state.username,
                 password: this.state.password
             })

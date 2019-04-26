@@ -23,6 +23,12 @@ npm run build
 ```
 Then place the browser ready files onto your server
 
+### Configuring your project to a different Strapi Backend:
+When switching backends you have to change all corresponding urls that send and receive data from strapi.  Here is a list of the changes that you should make:
+- `app/Login.js` : inside `Login` class
+    - inside `login()` method
+        - change: `axios.post()`
+
 ## Quick Documentation:
 
 ### Webpack
@@ -30,3 +36,4 @@ Then place the browser ready files onto your server
 ### React Router
 
 ### React Semantic UI
+
