@@ -8,10 +8,12 @@ import MainMenu from './Menu';
 import AccountRequestForm from './AccountRequestForm';
 import AccountRequests from './AccountRequests';
 import Login from './Login';
+import Login2 from './Login2';
 import ITSupport from './ITSupport';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import {Container, Segment, Grid, Header, List, Divider, Image, Visibility} from 'semantic-ui-react';
 import {basicAuth} from '../utils/auth.js';
+import ProtectedComp from './Protected';
 
 // export const fakeAuth = {
 //   isAuthenticated: false,
@@ -44,8 +46,6 @@ function StyleComponent() {
     </style>    
   )
 }
-
-
 
 //Footer:
 function AppFooter() {
@@ -134,7 +134,9 @@ class App extends React.Component {
             <Route exact path='/request_form' component={AccountRequestForm} />
             <Route exact path='/account_requests' component={AccountRequests} />
             <Route exact path='/login' component={Login} />
+            <Route exact path='/login2' component={Login2} />
             <Route exact path='/support' component={ITSupport} />
+            <Route exact path='/protectedcomp' component={ProtectedComp}/>
             <PrivateRoute path='/protected' component={Protected} />
             <Route render={() => <div>Page not found</div>} />
           </Switch>

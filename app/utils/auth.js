@@ -1,14 +1,13 @@
 import React from 'react';
 import {Menu, Button} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
-
 import {
     BrowserRouter as Router,
     Route,
     Link,
     Redirect,
     withRouter,
-} from 'react-router-dom'
+} from 'react-router-dom';
 
 
 export const basicAuth = {
@@ -42,3 +41,5 @@ export const AuthButton = withRouter(({history}) => (
             exact
         >Login</Menu.Item>
 ))
+
+

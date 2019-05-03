@@ -52,8 +52,8 @@ function SelectOnBoardType (props) {
 function DocsGrid (props) {
     return (
         props.docs.map((currDoc) => (
-            <div>
-            <Container textAlign='justified' key={currDoc._id}>
+            <div key={currDoc._id}>
+            <Container textAlign='justified'>
                 <Segment raised>
                     <h3>{currDoc.title}</h3>
                     <Divider/>

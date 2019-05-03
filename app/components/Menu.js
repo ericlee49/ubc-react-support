@@ -2,6 +2,7 @@ import React from 'react';
 import {Menu, Segment, Button, Container, Grid, Visibility, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
 import {AuthButton, basicAuth} from '../utils/auth.js';
+import {AuthButton2} from '../utils/auth2.js';
 import Header from './Header';
 
 
@@ -82,13 +83,18 @@ class MainMenu extends React.Component {
                         name='Protected Page' 
                         as={NavLink} to='/protected' exact
                     />
+                    <Menu.Item 
+                        name='Protected Page 2' 
+                        as={NavLink} to='/protectedcomp' exact
+                    />                    
 
                     {basicAuth.isAuthenticated && <Menu.Item
                         name='Account Requests'
                         as={NavLink} to='/account_requests'>
                     </Menu.Item>}
-
-                    <AuthButton/>                   
+                    <AuthButton2/>
+                    <AuthButton/>   
+            
                 </Container>
                                       
             </Menu>

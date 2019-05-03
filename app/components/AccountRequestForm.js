@@ -3,6 +3,7 @@ import { Button, Checkbox, Form, Input, Radio, Select, TextArea } from 'semantic
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { create } from 'domain';
+import {labOfficeOptions} from './StaticInfo';
 
 const titleOptions = [
     { key: 'u', text: 'Undergrad', value: 'ugrad' },
@@ -12,11 +13,11 @@ const titleOptions = [
     { key: 'f', text: 'Faculty', value: 'faculty' },
 ]
 
-const labOfficeOptions = [
-    { key: 'g', text: 'Gold Lab', value: 'gold' },
-    { key: 'admin' , text: 'Administrator', value: 'admin'},
-    { key: 'j' , text:'Johnson Lab', value:'johnson'}
-]
+// const labOfficeOptions = [
+//     { key: 'g', text: 'Gold Lab', value: 'gold' },
+//     { key: 'admin' , text: 'Administrator', value: 'admin'},
+//     { key: 'j' , text:'Johnson Lab', value:'johnson'}
+// ]
 
 const CREATE_ACCOUNT_REQUEST = gql `
     mutation CreateAccountRequest($firstname: String!, $lastname: String!, $email:String!, $title:String!, $labOffice:String!) {
