@@ -8,25 +8,11 @@ import MainMenu from './Menu';
 import AccountRequestForm from './AccountRequestForm';
 import AccountRequests from './AccountRequests';
 import Login from './Login';
-import Login2 from './Login2';
 import ITSupport from './ITSupport';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import {Container, Segment, Grid, Header, List, Divider, Image, Visibility} from 'semantic-ui-react';
-import {basicAuth} from '../utils/auth.js';
 import ProtectedComp from './Protected';
-
-// export const fakeAuth = {
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     this.isAuthenticated = true
-//     setTimeout(cb, 100) // fake async
-//   },
-//   signout(cb) {
-//     this.isAuthenticated = false
-//     setTimeout(cb, 100)
-//   }
-// }
-
+import {loggedIn} from '../utils/auth.js';
 
 
 //Stateless Function Components:
@@ -100,12 +86,10 @@ function AppFooter() {
   )
 }
 
-const Protected = () => <h3>Protected</h3>
-
 //Private Route component: 
 const PrivateRoute = ({component: Component, ...rest}) => (
   <Route {...rest} render={(props) => (
-    basicAuth.isAuthenticated === true 
+    loggedIn() === true 
       ? <Component {...props}/>
       : <Redirect to={{
           pathname: '/login',
@@ -132,12 +116,10 @@ class App extends React.Component {
             <Route exact path='/' component={Home} />
             <Route exact path='/onboarding' component={OnBoarding} />
             <Route exact path='/request_form' component={AccountRequestForm} />
-            <Route exact path='/account_requests' component={AccountRequests} />
+            <PrivateRoute exact path='/account_requests' component={AccountRequests} />
             <Route exact path='/login' component={Login} />
-            <Route exact path='/login2' component={Login2} />
             <Route exact path='/support' component={ITSupport} />
-            <Route exact path='/protectedcomp' component={ProtectedComp}/>
-            <PrivateRoute path='/protected' component={Protected} />
+            <PrivateRoute path='/protectedcomp' component={ProtectedComp} />
             <Route render={() => <div>Page not found</div>} />
           </Switch>
         </Container>

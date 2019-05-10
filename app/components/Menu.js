@@ -1,8 +1,9 @@
 import React from 'react';
 import {Menu, Segment, Button, Container, Grid, Visibility, Image} from 'semantic-ui-react';
 import {NavLink} from 'react-router-dom';
-import {AuthButton, basicAuth} from '../utils/auth.js';
-import {AuthButton2} from '../utils/auth2.js';
+// import {AuthButton, basicAuth} from '../utils/auth.js';
+import {loggedIn, AuthButton} from '../utils/auth.js';
+// import {AuthButton2} from '../utils/auth2.js';
 import Header from './Header';
 
 
@@ -81,19 +82,20 @@ class MainMenu extends React.Component {
                     />
                     <Menu.Item 
                         name='Protected Page' 
-                        as={NavLink} to='/protected' exact
-                    />
-                    <Menu.Item 
-                        name='Protected Page 2' 
                         as={NavLink} to='/protectedcomp' exact
                     />                    
 
-                    {basicAuth.isAuthenticated && <Menu.Item
+                    {/* {basicAuth.isAuthenticated && <Menu.Item
+                        name='Account Requests'
+                        as={NavLink} to='/account_requests'>
+                    </Menu.Item>} */}
+                    {/* Check if logged in, if so show additional menu options: */}
+                    {loggedIn() && <Menu.Item
                         name='Account Requests'
                         as={NavLink} to='/account_requests'>
                     </Menu.Item>}
-                    <AuthButton2/>
-                    <AuthButton/>   
+
+                    <AuthButton/>  
             
                 </Container>
                                       

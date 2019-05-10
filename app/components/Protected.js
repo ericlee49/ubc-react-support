@@ -9,5 +9,4 @@ class ProtectedComp extends React.Component {
     }
 }
 
-
 export default withAuth(ProtectedComp);

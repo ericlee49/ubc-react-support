@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
-import {BrowserRouter as Router, Redirect} from 'react-router-dom';
-import {basicAuth} from '../utils/auth.js'
+import {BrowserRouter as Router, Redirect, withRouter} from 'react-router-dom';
 import axios from 'axios';
+import {loggedIn, logout, setToken, LogOutButton} from '../utils/auth';
+
 
 
 //Semantic UI InLineStyler
@@ -34,7 +35,6 @@ class Login extends React.Component {
     }
 
     login(){
-
         return (
             axios
             .post('http://it.microbiology.ubc.ca:1337/auth/local', {
@@ -46,14 +46,17 @@ class Login extends React.Component {
               console.log('Well done!');
               console.log('User profile', response.data.user);
               console.log('User token', response.data.jwt);
-              basicAuth.authenticate (() => {
-                this.setState(() => ({
-                    redirectToReferrer: true
-                }))
-              })
+
+              // Setting the token in localStorage
+            //   this.setToken(response.data.jwt); 
+              setToken(response.data.jwt);
+              
+              this.setState({redirectToReferrer : true});  
+              console.log(this.state);
             })
             .catch(error => {
               // Handle error.
+              
               console.log('An error occurred:', error);
               this.showLoginError();
             })        
@@ -68,6 +71,12 @@ class Login extends React.Component {
         ));
     }
 
+    // Logout Action:
+    handleLogOut() {
+        logout(() => history.push('/'));
+    }
+
+    // Show Error Message:
     showLoginError() {
         this.setState(() => (
             {errorMessage: false}
@@ -84,49 +93,53 @@ class Login extends React.Component {
             )
         }
 
-        return (
-            <div>
-            <Grid textAlign='center' color='red' verticalAlign='middle' >
-                <Grid.Row style={{maxWidth: 450}}>
-                    <Grid.Column >
-                        <Header as='h2' textAlign='center'>
-                            Log-in to your account
-                        </Header>
-                        <Form>
-                            <Segment>
-                                <Form.Input 
-                                    placeholder='E-mail address / username'
-                                    icon='user'
-                                    iconPosition='left'
-                                    name = 'username'
-                                    onChange={this.handleChange}/>
-                                <Form.Input 
-                                    placeholder='Password' 
-                                    icon='lock'
-                                    iconPosition='left'
-                                    type='password' 
-                                    name = 'password'
-                                    onChange={this.handleChange}/>
-                            </Segment>
-                        </Form>
-                        <Button onClick={this.login} fluid >
-                            Login
-                        </Button>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-            <Message negative hidden={this.state.errorMessage}>
-                <Message.Header>We're sorry login failed</Message.Header>
-                <p>Incorrect username or password.</p>
-            </Message>
-            </div>
-
-
-
-            
-
-        )
-        
+        if (loggedIn() === true) {
+            return (
+                <div>
+                    <p>You are already logged in! You can logout here:</p>
+                    
+                    <LogOutButton/>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                <Grid textAlign='center' color='red' verticalAlign='middle' >
+                    <Grid.Row style={{maxWidth: 450}}>
+                        <Grid.Column >
+                            <Header as='h2' textAlign='center'>
+                                Log-in to your account
+                            </Header>
+                            <Form>
+                                <Segment>
+                                    <Form.Input 
+                                        placeholder='E-mail address / username'
+                                        icon='user'
+                                        iconPosition='left'
+                                        name = 'username'
+                                        onChange={this.handleChange}/>
+                                    <Form.Input 
+                                        placeholder='Password' 
+                                        icon='lock'
+                                        iconPosition='left'
+                                        type='password' 
+                                        name = 'password'
+                                        onChange={this.handleChange}/>
+                                </Segment>
+                            </Form>
+                            <Button onClick={this.login} fluid >
+                                Login
+                            </Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                <Message negative hidden={this.state.errorMessage}>
+                    <Message.Header>We're sorry login failed</Message.Header>
+                    <p>Incorrect username or password.</p>
+                </Message>
+                </div>          
+            )
+        }
     }
 }
 

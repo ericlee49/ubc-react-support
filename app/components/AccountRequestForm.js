@@ -2,8 +2,8 @@ import React from 'react'
 import { Button, Checkbox, Form, Input, Radio, Select, TextArea } from 'semantic-ui-react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { create } from 'domain';
-import {labOfficeOptions} from './StaticInfo';
+// import { create } from 'domain';
+import {labOfficeOptions} from '../utils/staticInfo';
 
 const titleOptions = [
     { key: 'u', text: 'Undergrad', value: 'ugrad' },
@@ -103,7 +103,7 @@ class AccountRequestForm extends React.Component {
                                 <Form.Select label='Title' value={title} options={titleOptions} placeholder='Select' name='title' onChange={this.handleChangeDropDown}/>
                             </Form.Group>
                             <Form.Group>
-                            <Form.Select label='Office / Lab' options={labOfficeOptions} placeholder='Select' name='labOffice'onChange={this.handleChangeDropDown} />
+                            <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='labOffice'onChange={this.handleChangeDropDown} />
                             </Form.Group>
                             <Form.Button content='Submit' />
                         </Form>

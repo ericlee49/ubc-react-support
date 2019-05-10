@@ -1,5 +1,5 @@
 import React from 'react';
-import {loggedIn, isTokenExpired, setToken, getToken, logout, getConfirm, AuthButton2} from '../utils/auth2.js';
+import {loggedIn, logout, getConfirm} from '../utils/auth.js';
 
 // HOC:
 
@@ -16,7 +16,8 @@ function withAuth(AuthComponent) {
         
         componentDidMount() {
             if (!loggedIn()) {
-                this.props.history.replace("/login2");
+                // Most likely won't hit this, with routing:
+                console.log("user not logged in!");
             } else {
                 // Try to get confirmation message from getConfirm function
                 try {
