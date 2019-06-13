@@ -119,7 +119,7 @@ class App extends React.Component {
             <PrivateRoute exact path='/account_requests' component={AccountRequests} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/support' component={ITSupport} />
-            <PrivateRoute path='/protectedcomp' component={ProtectedComp} />
+            {/* <PrivateRoute path='/protectedcomp' component={ProtectedComp} /> */}
             <Route render={() => <div>Page not found</div>} />
           </Switch>
         </Container>

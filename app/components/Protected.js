@@ -1,3 +1,5 @@
+// EXAMPLE PROTECTED PAGE
+
 import React from 'react';
 import withAuth from './withAuth';
 

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Checkbox, Form, Input, Radio, Select, TextArea } from 'semantic-ui-react'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-// import { create } from 'domain';
+// import { Button, Checkbox, Form, Input, Radio, Select, TextArea } from 'semantic-ui-react'
+import {Form, Button, Confirm} from 'semantic-ui-react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import {labOfficeOptions} from '../utils/staticInfo';
 
 const titleOptions = [
@@ -13,22 +13,29 @@ const titleOptions = [
     { key: 'f', text: 'Faculty', value: 'faculty' },
 ]
 
-// const labOfficeOptions = [
-//     { key: 'g', text: 'Gold Lab', value: 'gold' },
-//     { key: 'admin' , text: 'Administrator', value: 'admin'},
-//     { key: 'j' , text:'Johnson Lab', value:'johnson'}
-// ]
+const durationLength = [
+    { text: '3 months', value: '3 monthshs' },
+    { text: '6 months', value: '6 months' },
+    { text: '1 year', value: '1 year' },
+    { text: '2 years', value: '2 years' },
+    { text: '3 years', value: '3 years' },    
+    { text: '4 years', value: '4 years' },
+    { text: '5 years', value: '5 years' },
+    { text: '5 years+', value: '5 years+' },
+]
 
 const CREATE_ACCOUNT_REQUEST = gql `
-    mutation CreateAccountRequest($firstname: String!, $lastname: String!, $email:String!, $title:String!, $labOffice:String!) {
+    mutation CreateAccountRequest($firstname: String!, $lastname: String!, $email:String!, $title:String!, $lab:String!, $cwl:String!, $duration:String!) {
         createAccountrequest(input: {
             data: {
               firstname: $firstname,
               lastname: $lastname,
               email: $email,
               title: $title,
-              laboffice: $labOffice,
+              lab: $lab,
               status: false,
+              cwl: $cwl,
+              duration: $duration,
             }
           }) {
             accountrequest {
@@ -36,9 +43,10 @@ const CREATE_ACCOUNT_REQUEST = gql `
               lastname
               email
               title
-              laboffice
+              lab
               status
-
+              cwl
+              duration
             }
           }
     }
@@ -52,12 +60,17 @@ class AccountRequestForm extends React.Component {
             lastname: '',
             email: '',
             title: '',
-            labOffice: '',
-
+            lab: '',
+            cwl: '',
+            duration: '',
+            success_message_open: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeDropDown = this.handleChangeDropDown.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleConfirm = this.handleConfirm.bind(this);
+        this.showSuccessMessage = this.showSuccessMessage.bind(this);
     }
 
     handleChange(event) {
@@ -77,15 +90,28 @@ class AccountRequestForm extends React.Component {
 
     handleSubmit(event, t) {
         console.log(t);
+        console.log(this.state);
+    }
+
+    showSuccessMessage() {
+        this.setState({success_message_open: true})
+    }
+
+    handleConfirm() {
+        this.setState({success_message_open: false});
+        this.props.history.push('/');
+
     }
 
     render() {
-        const {firstname,lastname,email,title,labOffice} = this.state
+        const {firstname,lastname,email,title,lab, cwl, duration} = this.state
         return (
+            <div>
             <Mutation 
                 mutation={CREATE_ACCOUNT_REQUEST} 
-                variables={{firstname, lastname, email, title, labOffice}}
-                onCompleted={() => this.props.history.push('/')}
+                variables={{firstname, lastname, email, title, lab, cwl, duration}}
+                onCompleted={this.showSuccessMessage}
+                // onCompleted={() => this.props.history.push('/')}
             >
                 {(createAccountrequest) => (
                     <div>
@@ -100,17 +126,30 @@ class AccountRequestForm extends React.Component {
                                 <Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={this.handleChange}/>
                             </Form.Group>
                             <Form.Group>
+                                <Form.Input label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={this.handleChange}/>
+                            </Form.Group>                            
+                            <Form.Group>
                                 <Form.Select label='Title' value={title} options={titleOptions} placeholder='Select' name='title' onChange={this.handleChangeDropDown}/>
                             </Form.Group>
                             <Form.Group>
-                            <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='labOffice'onChange={this.handleChangeDropDown} />
+                            <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab'onChange={this.handleChangeDropDown} />
                             </Form.Group>
+                            <Form.Group>
+                                <Form.Select label='Duration of Stay' options={durationLength} placeholder='Select' onChange={this.handleChangeDropDown}/>
+                            </Form.Group>                          
                             <Form.Button content='Submit' />
                         </Form>
                     </div>
                 )}
-            </Mutation>
+            </Mutation>   
 
+            <Confirm 
+                open={this.state.success_message_open}
+                content='Thank You. We have received your request!'
+                onConfirm={this.handleConfirm}
+            />
+            </div>
+         
         )
     }
 }

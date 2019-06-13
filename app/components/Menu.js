@@ -80,15 +80,7 @@ class MainMenu extends React.Component {
                         name='IT Support' 
                         as={NavLink} to='/support' exact
                     />
-                    <Menu.Item 
-                        name='Protected Page' 
-                        as={NavLink} to='/protectedcomp' exact
-                    />                    
-
-                    {/* {basicAuth.isAuthenticated && <Menu.Item
-                        name='Account Requests'
-                        as={NavLink} to='/account_requests'>
-                    </Menu.Item>} */}
+               
                     {/* Check if logged in, if so show additional menu options: */}
                     {loggedIn() && <Menu.Item
                         name='Account Requests'

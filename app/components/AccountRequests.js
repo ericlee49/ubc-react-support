@@ -12,15 +12,17 @@ const ACCOUNTREQUESTS_QUERY = gql `
             firstname
             lastname
             title
-            laboffice
+            lab
             email
             status
+            duration
+            cwl
         }
     }
 `;
 
 const UPDATE_ACCOUNT_REQUEST = gql `
-    mutation UpdateAccountRequest($firstname: String!, $_id: ID!, $lastname: String!, $email: String!, $status: Boolean!, $title: String!, $laboffice: String!) {
+    mutation UpdateAccountRequest($firstname: String!, $_id: ID!, $lastname: String!, $email: String!, $status: Boolean!, $title: String!, $lab: String!, $duration: String!, $cwl: String!) {
         updateAccountrequest(input: {
             where: {
                 id: $_id
@@ -31,7 +33,9 @@ const UPDATE_ACCOUNT_REQUEST = gql `
               email: $email,
               status: $status,
               title: $title,
-              laboffice: $laboffice
+              lab: $lab,
+              cwl: $cwl,
+              duration: $duration,
             }
           }) {
             accountrequest {
@@ -40,7 +44,9 @@ const UPDATE_ACCOUNT_REQUEST = gql `
               email
               status
               title
-              laboffice
+              lab
+              cwl
+              duration
             }
           }
     }
@@ -89,7 +95,7 @@ function RequestTableBody (props) {
                 <Table.Cell>{req.lastname}</Table.Cell>
                 <Table.Cell>{req.email}</Table.Cell>
                 <Table.Cell>{req.title}</Table.Cell>
-                <Table.Cell>{req.laboffice}</Table.Cell>
+                <Table.Cell>{req.lab}</Table.Cell>
                 {req.status ? <Table.Cell positive>Complete</Table.Cell> : <Table.Cell negative>Pending</Table.Cell>}
                 <Table.Cell>
                     <Button 
@@ -113,6 +119,8 @@ function RequestTableHeader() {
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Lab</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>CWL</Table.HeaderCell>
+            <Table.HeaderCell>Duration</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
         </Table.Header>  
@@ -127,11 +135,12 @@ class AccountRequest extends React.Component {
             _id: '',
             firstname: '',
             lastname:'',
-            laboffice: '',
+            lab: '',
             status: false,
             title: '',
             email: '',
-            csvdata: [],
+            cwl: '',
+            duration: '',
         };
         
         this.close = this.close.bind(this);
@@ -150,17 +159,17 @@ class AccountRequest extends React.Component {
 
     // Helper function to open modal with 
     rowButtonOnClick(data) {
-        console.log(data);
-        console.log(data.firstname);
         this.setState({
             // add data to state for modal to display
             _id : data._id,
             firstname : data.firstname,
-            laboffice : data.laboffice,
+            lab : data.lab,
             lastname : data.lastname,
             status: data.status,
             email: data.email,
             title: data.title,
+            cwl: data.cwl,
+            duration: data.duration,
             // set modal to open
             open : true,
         })
@@ -180,12 +189,12 @@ class AccountRequest extends React.Component {
     }
 
     render() {
-        const {open, firstname, lastname, email, laboffice, _id, title, status} = this.state;   
+        const {open, firstname, lastname, email, lab, _id, title, status, cwl, duration} = this.state;   
         return (
             <div>
                 <Mutation
                     mutation={UPDATE_ACCOUNT_REQUEST}
-                    variables={{firstname, _id, lastname, email, title, status, laboffice}}
+                    variables={{firstname, _id, lastname, email, title, status, lab, cwl, duration}}
                     onCompleted={() => this.close()}
                 >
                     {(updateAccountrequest) => (
@@ -196,9 +205,11 @@ class AccountRequest extends React.Component {
                                 <Form.Input fluid label='Request id'>{_id}</Form.Input>
                                 <Form.Input fluid label='First name' name='firstname' value={firstname} onChange={this.handleChange}/>
                                 <Form.Input fluid label='Last name' name='lastname' value={lastname} onChange={this.handleChange}/>  
-                                <Form.Input fluid label='Lab/Office' name='laboffice' value={laboffice} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Lab' name='lab' value={lab} onChange={this.handleChange}/>
                                 <Form.Input fluid label='Email' name='email' value={email} onChange={this.handleChange}/>
                                 <Form.Input fluid label='Title' name='title' value={title} onChange={this.handleChange}/>
+                                <Form.Input fluid label='CWL' name='cwl' value={cwl} onChange={this.handleChange}/>
+                                <Form.Input fluid label='Duration of Stay' name='duration' value={duration} onChange={this.handleChange}/>
                                 <Form.Input fluid label='Status'>
                                     <Checkbox toggle color='red' checked={status} onChange={this.toggle}/>
                                     {status ? 
@@ -211,6 +222,7 @@ class AccountRequest extends React.Component {
                         </Modal.Content>
                         <Modal.Actions>
                             <Button color='black' onClick={updateAccountrequest}>
+                            {/* <Button color='black' onClick={console.log(this.state)}>                             */}
                                 Submit Changes
                             </Button>
                         </Modal.Actions>
@@ -238,8 +250,10 @@ class AccountRequest extends React.Component {
                                                     <Table.Cell>{data.lastname}</Table.Cell>
                                                     <Table.Cell>{data.email}</Table.Cell>
                                                     <Table.Cell>{data.title}</Table.Cell>
-                                                    <Table.Cell>{data.laboffice}</Table.Cell>
+                                                    <Table.Cell>{data.lab}</Table.Cell>
                                                     {data.status ? <Table.Cell positive>Complete</Table.Cell> : <Table.Cell negative>Pending</Table.Cell>}
+                                                    <Table.Cell>{data.cwl}</Table.Cell>
+                                                    <Table.Cell>{data.duration}</Table.Cell>
                                                     <Table.Cell>
                                                         <Button 
                                                             content='edit'

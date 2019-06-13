@@ -1,31 +1,32 @@
-// var React = require('react');
+
 import React from 'react';
 import {Segment, Dimmer, Loader, List, Container, Divider, Tab} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-// import {fetchOnBoardingContent} from '../utils/api';
 import ReactMarkdown from 'react-markdown';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-// const ONBOARDING_QUERY = gql `
-//     query Onboardings($tag: String!){
-//         onboardings(where:{tag_contains:$tag}) {
-//             _id
-//             title
-//             content
-//         }
-//     }
-// `;
-
 const ONBOARDING_QUERY = gql `
- query Onboardings ($tag: String!) {
-        onboardings(where:{tag_contains: $tag}) {
+    query Onboardings($tag: String!){
+        onboardings(where:{tag_contains:$tag}) {
             _id
             title
             content
         }
     }
 `;
+
+
+// // LOCALHOST requires _id, could be a mongodb thing.
+// const ONBOARDING_QUERY = gql `
+//  query Onboardings ($tag: String!) {
+//         onboardings(where:{tag_contains: $tag}) {
+//             id
+//             title
+//             content
+//         }
+//     }
+// `;
 
 // Horizontal List-menu for filtering userTypes
 function SelectOnBoardType (props) {
@@ -85,6 +86,7 @@ class OnBoarding extends React.Component {
         this.state = {
             selectedUserType: "Student",
             onBoardingDocs: null,
+            // set the initially set tab to Student
             tag: "Student",
         };
 

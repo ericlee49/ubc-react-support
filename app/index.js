@@ -13,7 +13,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import {BrowserRouter} from 'react-router-dom';
 
 const httpLink = createHttpLink({
+  // LOCAL TESTING STRAPI CMS:
   // uri: 'http://localhost:1337/graphql'
+
+  // LIVE STRAPI CMS:
   uri: 'http://142.103.60.10:1337/graphql'
 });
 
