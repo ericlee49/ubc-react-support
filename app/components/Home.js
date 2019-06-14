@@ -33,6 +33,13 @@ class Home extends React.Component {
                 </Grid>    
                 </Segment>
                 <Container textAlign='left' style={{ paddingBottom: '2em', paddingTop: '2em' }}>
+                    <p>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />                        
+                    </p>
                     <Header as='h5'>Microbiology & Immunology</Header>
                     <p>
                         Faculty of Science <br/> 1365 - 2350 Headlth Sciences Mall <br/> Vancouver, British Columbia Canada V6T 1Z3

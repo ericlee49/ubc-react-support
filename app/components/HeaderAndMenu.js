@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 // import {AuthButton, basicAuth} from '../utils/auth.js';
 import {loggedIn, AuthButton} from '../utils/auth.js';
 // import {AuthButton2} from '../utils/auth2.js';
-import Header from './Header';
+import UBCHeader from './UBCHeader';
 
 
 function StyleComponent() {
@@ -51,7 +51,7 @@ class MainMenu extends React.Component {
                 onBottomVisible={this.unStickTopMenu}
                 once={false}
             >
-                <Header />
+                <UBCHeader />
             </Visibility>                            
             <Menu 
                 inverted 
