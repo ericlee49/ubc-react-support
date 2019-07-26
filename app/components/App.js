@@ -56,7 +56,7 @@ class App extends React.Component {
         <Container style={{ marginTop: '7em' }}>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route exact path='/onboarding' component={OnBoarding} />
+            <PrivateRoute exact path='/onboarding' component={OnBoarding} />
             <Route exact path='/request_form' component={AccountRequestForm} />
             <PrivateRoute exact path='/account_requests' component={AccountRequests} />
             <Route exact path='/login' component={Login} />

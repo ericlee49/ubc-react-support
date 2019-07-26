@@ -17,7 +17,8 @@ const httpLink = createHttpLink({
   // uri: 'http://localhost:1337/graphql'
 
   // LIVE STRAPI CMS:
-  uri: 'http://142.103.60.10:1337/graphql'
+  // uri: 'http://142.103.60.10:1337/graphql'
+  uri: 'https://it.microbiology.ubc.ca/graphql'
 });
 
 const client = new ApolloClient({
