@@ -64,12 +64,12 @@ class MainMenu extends React.Component {
                         // onClick={this.handleItemClick.bind(null, 'home')}
                         as={NavLink} to='/' exact
                     />
-                    <Menu.Item 
+                    {loggedIn() && <Menu.Item 
                         name='on boarding'
                         // active={activeItem === 'on boarding'}
                         // onClick={this.handleItemClick.bind(null, 'on boarding')}
                         as={NavLink} to='/onboarding' exact
-                    />
+                    />}
                     <Menu.Item 
                         name='Account Request Form'
                         // active={activeItem === 'IT support'}

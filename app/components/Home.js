@@ -19,11 +19,16 @@ class Home extends React.Component {
                 <Segment vertical>
                 <Grid celled='internally' columns='equal' stackable>
                     <Grid.Row textAlign='center'>
-                    <Grid.Column style={{ paddingBottom: '2em', paddingTop: '2em' }}>
+                    {/* <Grid.Column style={{ paddingBottom: '2em', paddingTop: '2em' }}>
                         <h3>New to the Department?</h3>
                         <p style={{ fontSize: '1.33em' }}>Get started with our On-boarding Steps and Information:</p>
                         <Button as={Link} to='/onboarding'>Go to On-Boarding</Button>
-                    </Grid.Column>
+                    </Grid.Column> */}
+                    <Grid.Column style={{ paddingBottom: '2em', paddingTop: '2em' }}>
+                        <h3>Have a specific request?</h3>
+                        <p style={{ fontSize: '1.33em' }}>Email us at:</p>
+                        <p style={{ fontSize: '1.33em' }}><a href="mailto:itsupport@microbiology.ubc.ca">itsupport@microbiology.ubc.ca</a></p>
+                    </Grid.Column>                    
                     <Grid.Column style={{ paddingBottom: '2em', paddingTop: '2em' }}>
                         <h3>Need an M&I Department Account?</h3>
                         <p style={{ fontSize: '1.33em' }}>Send your request here:</p>
