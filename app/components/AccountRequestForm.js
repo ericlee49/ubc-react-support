@@ -4,6 +4,7 @@ import {Form, Button, Confirm} from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import {labOfficeOptions} from '../utils/staticInfo';
+import {Redirect} from 'react-router-dom';
 
 const titleOptions = [
     { text: 'Undergrad', value: 'ugrad' },
@@ -84,10 +85,8 @@ export default function AccountRequestForm() {
     const [duration, setDuration] = React.useState('');
 
     const [submitStatus, setSubmitStatus] = React.useState(false);
+    const [toHome, setToHome] = React.useState(false);
 
-    React.useEffect(() => {
-        console.log(firstName)
-    },[firstName])
     return (
         <div>
                 <h3>Send us a request for a M&I Account:</h3>
@@ -97,7 +96,7 @@ export default function AccountRequestForm() {
                         <Form.Input label='Last name' placeholder='Last name' name='lastname'onChange={(e) => {setLastName(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setEmail(e.value)}}/>
+                        <Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setEmail(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Input label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={(e) => {setCwl(e.target.value)}}/>
@@ -124,13 +123,26 @@ export default function AccountRequestForm() {
                         title: String(title),
                         duration: String(duration),
                     }}
-                    onCompleted={console.log("submitted success!")}
+                    onCompleted={() => { setSubmitStatus(true)}}
                 >
                     {(createAccountrequest) => (
                         <Button onClick={() => {createAccountrequest()}}>Submit2</Button>
                     )}
-                </Mutation>    
+                </Mutation>
+                <Confirm 
+                    open={submitStatus}
+                    content='Thank You. We have received your request!'
+                    onConfirm={() => {
+                        setSubmitStatus(false)
+                        setToHome(true);
+                    }}
+                />  
+                { toHome 
+                    ? <Redirect to='/' />
+                    : null
+                }
             </div>
+            
     )
 }
 

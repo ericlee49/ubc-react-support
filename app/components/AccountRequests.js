@@ -236,7 +236,7 @@ class AccountRequest extends React.Component {
                         ({loading, error, data}) =>
                             {
                                 if (loading) return <p>Fetching...</p>
-                                if (error) return <p>Error!</p>
+                                if (error) return <p>error!</p>
                                 const dataToRender = data.accountrequests;
                                 return (
                                     <div>
