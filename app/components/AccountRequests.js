@@ -17,6 +17,7 @@ const ACCOUNTREQUESTS_QUERY = gql `
             status
             duration
             cwl
+            createdAt
         }
     }
 `;
@@ -121,6 +122,7 @@ function RequestTableHeader() {
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>CWL</Table.HeaderCell>
             <Table.HeaderCell>Duration</Table.HeaderCell>
+            <Table.HeaderCell>Created</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
         </Table.Header>  
@@ -154,7 +156,8 @@ class AccountRequest extends React.Component {
         this.setState({
             open:false
         })
-        window.location.reload();
+        this.forceUpdate()
+        // window.location.reload();
     }
 
     // Helper function to open modal with 
@@ -188,10 +191,59 @@ class AccountRequest extends React.Component {
         this.setState(() => ({status: !this.state.status}))
     }
 
+    ModalAccountDetails() {
+        return (
+            <div>
+                
+            </div>
+        )
+    }
+
     render() {
         const {open, firstname, lastname, email, lab, _id, title, status, cwl, duration} = this.state;   
         return (
             <div>
+                <h3>M&I Account Requests</h3>
+                <Query query = {ACCOUNTREQUESTS_QUERY}>
+                    {
+                        ({loading, error, data}) =>
+                            {
+                                if (loading) return <p>Fetching...</p>
+                                if (error) return <p>error!</p>
+                                const dataToRender = data.accountrequests;
+                                return (
+                                    <div>
+                                    <Table celled selectable>
+                                        <RequestTableHeader />
+                                        <Table.Body>
+                                            {/* <RequestTableBody data={dataToRender} /> */}
+                                            {dataToRender.map((data) => (
+                                                <Table.Row key={data._id}>
+                                                    <Table.Cell>{data.firstname}</Table.Cell>
+                                                    <Table.Cell>{data.lastname}</Table.Cell>
+                                                    <Table.Cell>{data.email}</Table.Cell>
+                                                    <Table.Cell>{data.title}</Table.Cell>
+                                                    <Table.Cell>{data.lab}</Table.Cell>
+                                                    {data.status ? <Table.Cell positive>Complete</Table.Cell> : <Table.Cell negative>Pending</Table.Cell>}
+                                                    <Table.Cell>{data.cwl}</Table.Cell>
+                                                    <Table.Cell>{data.duration}</Table.Cell>
+                                                    <Table.Cell>{data.createdAt}</Table.Cell>
+                                                    <Table.Cell>
+                                                        <Button 
+                                                            content='edit'
+                                                            onClick={this.rowButtonOnClick.bind(this,data)}
+                                                        />
+                                                    </Table.Cell>
+                                                </Table.Row>                                                
+                                            ))}                                            
+                                        </Table.Body>
+                                    </Table>
+                                    <CSVLink data={dataToRender} >Export to CSV</CSVLink>
+                                    </div>
+                                )
+                            }
+                    }
+                </Query>
                 <Mutation
                     mutation={UPDATE_ACCOUNT_REQUEST}
                     variables={{firstname, _id, lastname, email, title, status, lab, cwl, duration}}
@@ -221,55 +273,13 @@ class AccountRequest extends React.Component {
                             </Form>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button color='black' onClick={updateAccountrequest}>
-                            {/* <Button color='black' onClick={console.log(this.state)}>                             */}
+                            <Button color='black' onClick={updateAccountrequest}>                         */}
                                 Submit Changes
                             </Button>
                         </Modal.Actions>
                     </Modal>
                     )}               
-
-                </Mutation>
-                <h3>M&I Account Requests</h3>
-                <Query query = {ACCOUNTREQUESTS_QUERY}>
-                    {
-                        ({loading, error, data}) =>
-                            {
-                                if (loading) return <p>Fetching...</p>
-                                if (error) return <p>error!</p>
-                                const dataToRender = data.accountrequests;
-                                return (
-                                    <div>
-                                    <Table celled selectable>
-                                        <RequestTableHeader />
-                                        <Table.Body>
-                                            {/* <RequestTableBody data={dataToRender} /> */}
-                                            {dataToRender.map((data) => (
-                                                <Table.Row key={data._id}>
-                                                    <Table.Cell>{data.firstname}</Table.Cell>
-                                                    <Table.Cell>{data.lastname}</Table.Cell>
-                                                    <Table.Cell>{data.email}</Table.Cell>
-                                                    <Table.Cell>{data.title}</Table.Cell>
-                                                    <Table.Cell>{data.lab}</Table.Cell>
-                                                    {data.status ? <Table.Cell positive>Complete</Table.Cell> : <Table.Cell negative>Pending</Table.Cell>}
-                                                    <Table.Cell>{data.cwl}</Table.Cell>
-                                                    <Table.Cell>{data.duration}</Table.Cell>
-                                                    <Table.Cell>
-                                                        <Button 
-                                                            content='edit'
-                                                            onClick={this.rowButtonOnClick.bind(this,data)}
-                                                        />
-                                                    </Table.Cell>
-                                                </Table.Row>                                                
-                                            ))}                                            
-                                        </Table.Body>
-                                    </Table>
-                                    <CSVLink data={dataToRender} >Export to CSV</CSVLink>
-                                    </div>
-                                )
-                            }
-                    }
-                    </Query>                    
+                </Mutation>                                    
             </div>
 
 
