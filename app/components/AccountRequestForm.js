@@ -1,12 +1,9 @@
 import React from 'react'
 // import { Button, Checkbox, Form, Input, Radio, Select, TextArea } from 'semantic-ui-react'
 import {Form, Button, Confirm} from 'semantic-ui-react';
-// import { Mutation } from 'react-apollo';
 import {Mutation} from '@apollo/react-components';
 import {useQuery} from '@apollo/react-hooks';
-// import gql from 'graphql-tag';
 import {gql} from 'apollo-boost';
-// import {labOfficeOptions} from '../utils/staticInfo';
 import {Redirect} from 'react-router-dom';
 
 const titleOptions = [

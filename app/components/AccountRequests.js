@@ -1,8 +1,9 @@
 import React from 'react';
 import {Table, Modal, Button, Form, Checkbox, Label} from 'semantic-ui-react';
-import { Query , Mutation} from 'react-apollo';
+// import { Query , Mutation} from 'react-apollo';
+import {Mutation, Query} from '@apollo/react-components';
 import gql from 'graphql-tag';
-import {CSVLink, CSVDownload} from 'react-csv';
+import {CSVLink} from 'react-csv';
 import withAuth from './withAuth';
 
 const ACCOUNTREQUESTS_QUERY = gql `

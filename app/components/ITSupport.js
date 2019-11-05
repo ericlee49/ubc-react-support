@@ -1,6 +1,6 @@
 import React from 'react';
 import {Segment, Menu, Grid, Header, Icon, SearchCategory} from 'semantic-ui-react';
-import {Query} from 'react-apollo';
+import {Query} from '@apollo/react-components';
 import gql from 'graphql-tag';
 import ReactMarkdown from 'react-markdown';
 import {NavLink, Route} from 'react-router-dom';

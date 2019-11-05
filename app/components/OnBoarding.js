@@ -3,7 +3,7 @@ import React from 'react';
 import {Segment, Dimmer, Loader, List, Container, Divider, Tab} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import { Query } from 'react-apollo';
+import {Query} from '@apollo/react-components';
 import gql from 'graphql-tag';
 
 const ONBOARDING_QUERY = gql `
