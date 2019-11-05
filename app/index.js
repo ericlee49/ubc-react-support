@@ -28,8 +28,12 @@ import {BrowserRouter} from 'react-router-dom';
 //   cache: new InMemoryCache()
 // });
 
+// const client = new ApolloClient({
+//   uri: 'http://localhost:1337/graphql',
+// });
+
 const client = new ApolloClient({
-  uri: 'http://localhost:1337/graphql',
+  uri: 'https://it.microbiology.ubc.ca/graphql',
 });
 
 ReactDOM.render(

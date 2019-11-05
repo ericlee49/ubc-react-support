@@ -25,29 +25,6 @@ const durationLength = [
     { text: '5 years+', value: '5 years+' },
 ]
 
-var labOfficeOptions = [    
-    { text: 'Gold Lab', value: 'gold' },
-    { key: 'admin' , text: 'Administrator', value: 'admin'},
-    { key: 'j' , text:'Johnson Lab', value:'johnson'},
-    { key: 'h' , text:'Harder Lab', value:'harder'},
-    { key: 'ho' , text:'Horwitz Lab', value:'horwitz'},
-    { key: 'ab' , text:'Abraham Lab', value:'abraham'},
-    { key: 'o' , text:'Osborne Lab', value:'osborne'},
-    { key: 'je' , text:'Jean Lab', value:'jean'},
-    { key: 'b' , text:'Beatty Lab', value:'beatty'},
-    { key: 'm' , text:'Murphy Lab', value:'murphy'},
-    { key: 'mo' , text:'Mohn Lab', value:'mohn'},
-    { key: 'f' , text:'Fernandez Lab', value:'fernandez'},
-    { key: 'ga' , text:'Gaynor Lab', value:'gaynor'},
-    { key: 'ha' , text:'Hallam Lab', value:'hallam'},
-    { key: 's' , text:'Smit Lab', value:'smit'},
-    { key: 'd' , text:'Davies Lab', value:'davies'},
-    { key: 't' , text:'Tocheva Lab', value:'tocheva'},
-    { key: 'tr' , text:'Tropini Lab', value:'tropini'},
-    { key: 'av' , text:'Av-gay Lab', value:'avgay'},
-];  
-
-
 const CREATE_ACCOUNT_REQUEST = gql `
     mutation CreateAccountRequest($firstname: String!, $lastname: String!, $email:String!, $title:String!, $lab:String!, $cwl:String!, $duration:String!) {
         createAccountrequest(input: {
@@ -97,14 +74,29 @@ export default function AccountRequestForm() {
     const [submitStatus, setSubmitStatus] = React.useState(false);
     const [toHome, setToHome] = React.useState(false);
 
+    var labOfficeOptions = [];
+
+    function sendOffEmail() {
+        let data = new FormData();
+        // data.append('to' , 'itsupport@microbiology.ubc.ca');
+        data.append('to' , 'eric.lee@ubc.ca');
+
+        data.append('subject', 'New M&I Account Request');
+        const body = `${firstName} ${lastName} from the ${lab} lab has sent you a request. `
+        data.append('text' , body);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'http://142.103.60.10:1337/email')
+        request.send(data);
+    }
+
     const {loading, error, data} = useQuery(GET_LABS);
     if (loading) return 'Loading...';
     if (error) return 'Error!';
     if (data) {
         let labValues = [];
-        // console.log(data.labs);
         labValues = data.labs.map(lab => ({text: (lab.name + ' Lab') , value: lab.name}));
-        console.log(labValues);
+        // console.log(labValues);
         labOfficeOptions = labValues;
     }
 
@@ -146,14 +138,19 @@ export default function AccountRequestForm() {
                     onCompleted={() => { setSubmitStatus(true)}}
                 >
                     {(createAccountrequest) => (
-                        <Button onClick={() => {createAccountrequest()}}>Submit2</Button>
+                        <Button onClick={() => {
+                            createAccountrequest()
+                            sendOffEmail();
+                        }}>
+                            Submit
+                        </Button>
                     )}
                 </Mutation>
             <Confirm 
                 open={submitStatus}
                 content='Thank You. We have received your request!'
                 onConfirm={() => {
-                    setSubmitStatus(false)
+                    setSubmitStatus(false);
                     setToHome(true);
                 }}
             />  
@@ -162,60 +159,6 @@ export default function AccountRequestForm() {
                 : null
             }
         </div>
-        // <div>
-        //         <h3>Send us a request for a M&I Account:</h3>
-        //         <Form>
-        //             <Form.Group>
-        //                 <Form.Input label='First name' placeholder='First name' name='firstname' onChange={(e) => {setFirstName(e.target.value)}}/>
-        //                 <Form.Input label='Last name' placeholder='Last name' name='lastname'onChange={(e) => {setLastName(e.target.value)}}/>
-        //             </Form.Group>
-        //             <Form.Group>
-        //                 <Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setEmail(e.target.value)}}/>
-        //             </Form.Group>
-        //             <Form.Group>
-        //                 <Form.Input label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={(e) => {setCwl(e.target.value)}}/>
-        //             </Form.Group>                            
-        //             <Form.Group>
-        //                 <Form.Select label='Title' options={titleOptions} placeholder='Select' name='title' onChange={(e, result) => {setTitle(result.value)}} />
-        //             </Form.Group>
-        //             <Form.Group>
-        //             <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab(result.value)}}/>
-        //             </Form.Group>
-        //             <Form.Group>
-        //                 <Form.Select label='Duration of Stay' options={durationLength} placeholder='Select' onChange={(e, result) => {setDuration(result.value)}}/>
-        //             </Form.Group>                          
-        //         </Form>
-        //         <Mutation 
-        //             mutation={CREATE_ACCOUNT_REQUEST} 
-        //             variables={{
-        //                 firstname: String(firstName), 
-        //                 lastname: String(lastName), 
-        //                 email: String(email),
-        //                 lab: String(lab),
-        //                 cwl: String(cwl),
-        //                 title: String(title),
-        //                 duration: String(duration),
-        //             }}
-        //             onCompleted={() => { setSubmitStatus(true)}}
-        //         >
-        //             {(createAccountrequest) => (
-        //                 <Button onClick={() => {createAccountrequest()}}>Submit2</Button>
-        //             )}
-        //         </Mutation>
-        //         <Confirm 
-        //             open={submitStatus}
-        //             content='Thank You. We have received your request!'
-        //             onConfirm={() => {
-        //                 setSubmitStatus(false)
-        //                 setToHome(true);
-        //             }}
-        //         />  
-        //         { toHome 
-        //             ? <Redirect to='/' />
-        //             : null
-        //         }
-        //</div>
-            
     )
 }
 
