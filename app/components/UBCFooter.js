@@ -49,6 +49,8 @@ class UBCFooter extends React.Component {
                 <List.Item as='a' href='#'>Terms of Use</List.Item>
                 <List.Item as='a' href='#'>UBC Copyright</List.Item>
                 <List.Item as='a' href='#'>Accessibility</List.Item>
+                <List.Item as='a' href='#'>Hello world</List.Item>
+
             </List>
         </Container>
         </Segment>

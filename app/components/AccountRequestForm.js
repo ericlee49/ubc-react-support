@@ -73,21 +73,28 @@ export default function AccountRequestForm() {
 
     const [submitStatus, setSubmitStatus] = React.useState(false);
     const [toHome, setToHome] = React.useState(false);
+    const [otherLabInputStatus, setOtherLabInputStatus] = React.useState(Boolean(true));
 
     var labOfficeOptions = [];
 
     function sendOffEmail() {
         let data = new FormData();
-        data.append('to' , 'itsupport@microbiology.ubc.ca');
+        // data.append('to' , 'itsupport@microbiology.ubc.ca');
+        data.append('to' , 'eric.lee@ubc.ca');
+
         data.append('subject', 'New M&I Account Request');
-        const body = `${firstName} ${lastName} from the ${lab} lab has sent you a request. `
+        // var body = `Details on new Email Request: \r\n' + 'First Name: '+${firstName} + '\r\n' + 'Last Name: ' +  ${lastName} + '\r\n' + 'Lab: ' ${lab}`
+        // body = encodeURIComponent(body);
+        // var body = 'hello <br> world <br> yellow';
+        const body = `You have a new email request.  Details: <br><br> <b>First Name:</b> ${firstName} <br> <b>Last Name:</b> ${lastName} <br> <b>Lab:</b> ${lab} <br><br> Log onto <a href="http://142.103.60.10:1337/admin/">strapi admin</a> for more details.`;
         data.append('text' , body);
 
         let request = new XMLHttpRequest();
-        request.open('POST', 'http://142.103.60.10:1337/email')
+        request.open('POST', 'https://it.microbiology.ubc.ca/email')
         request.send(data);
     }
 
+    // REACT HOOKS: use query to get lab name data:
     const {loading, error, data} = useQuery(GET_LABS);
     if (loading) return 'Loading...';
     if (error) return 'Error!';
@@ -96,7 +103,22 @@ export default function AccountRequestForm() {
         labValues = data.labs.map(lab => ({text: (lab.name + ' Lab') , value: lab.name}));
         // console.log(labValues);
         labOfficeOptions = labValues;
+        labOfficeOptions.push({ text: 'Other...', value: 'Other' })
     }
+
+    function setLab2(e, result) {
+        if (result.value === 'Other') {
+            setOtherLabInputStatus(Boolean(false));
+        } else {
+            const otherFieldInput = document.getElementById('other_input');
+            otherFieldInput.value = '';
+            console.log(lab);
+            setOtherLabInputStatus(Boolean(true));
+            setLab(result.value);
+        }
+
+    }
+
 
     return (
         <div>
@@ -116,7 +138,8 @@ export default function AccountRequestForm() {
                     <Form.Select label='Title' options={titleOptions} placeholder='Select' name='title' onChange={(e, result) => {setTitle(result.value)}} />
                 </Form.Group>
                 <Form.Group>
-                <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab(result.value)}}/>
+                    <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab2(e, result)}}/>
+                    <Form.Input id="other_input" disabled={otherLabInputStatus} label='Other Lab' placeholder='Other Lab...' onChange={(e) => {setLab(e.target.value)}}/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Select label='Duration of Stay' options={durationLength} placeholder='Select' onChange={(e, result) => {setDuration(result.value)}}/>

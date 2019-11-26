@@ -62,7 +62,13 @@ class App extends React.Component {
             <Route exact path='/login' component={Login} />
             <Route path='/support' component={ITSupport} />
             {/* <PrivateRoute path='/protectedcomp' component={ProtectedComp} /> */}
+            <Route path='/admin' component={() => { 
+              window.location.href = 'http://142.103.60.10:1337/admin/auth/login'; 
+              return null;
+            }}/>            
             <Route render={() => <div>Page not found</div>} />
+
+
           </Switch>
         </Container>
 
