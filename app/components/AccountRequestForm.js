@@ -79,8 +79,8 @@ export default function AccountRequestForm() {
 
     function sendOffEmail() {
         let data = new FormData();
-        // data.append('to' , 'itsupport@microbiology.ubc.ca');
-        data.append('to' , 'eric.lee@ubc.ca');
+        data.append('to' , 'itsupport@microbiology.ubc.ca');
+        // data.append('to' , 'eric.lee@ubc.ca');
 
         data.append('subject', 'New M&I Account Request');
         // var body = `Details on new Email Request: \r\n' + 'First Name: '+${firstName} + '\r\n' + 'Last Name: ' +  ${lastName} + '\r\n' + 'Lab: ' ${lab}`
