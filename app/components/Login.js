@@ -37,7 +37,7 @@ class Login extends React.Component {
     login(){
         return (
             axios
-            .post('http://it.microbiology.ubc.ca:1337/auth/local', {
+            .post('http://142.103.60.10:1337/auth/local', {
                 identifier: this.state.username,
                 password: this.state.password
             })
@@ -56,11 +56,27 @@ class Login extends React.Component {
             })
             .catch(error => {
               // Handle error.
-              
               console.log('An error occurred:', error);
               this.showLoginError();
             })        
         )
+        // return (
+        //     axios
+        //         .post('http://localhost:1337/auth/local', {
+        //             identifier: 'elee49',
+        //             password: 'superman143049',
+        //         })
+        //         .then(response => {
+        //             // Handle success.
+        //             console.log('Well done!');
+        //             console.log('User profile', response.data.user);
+        //             console.log('User token', response.data.jwt);
+        //         })
+        //         .catch(error => {
+        //             // Handle error.
+        //             console.log('An error occurred:', error);
+        //         })
+        // )
     }
     //handle change helper function, takes care of on-Click, changing state to match input
     handleChange(e) {
@@ -97,7 +113,6 @@ class Login extends React.Component {
             return (
                 <div>
                     <p>You are already logged in! You can logout here:</p>
-                    
                     <LogOutButton/>
                 </div>
             )

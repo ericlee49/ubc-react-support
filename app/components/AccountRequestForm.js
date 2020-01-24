@@ -63,29 +63,48 @@ const GET_LABS = gql `
 
 export default function AccountRequestForm() {
 
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [cwl, setCwl] = React.useState('');
-    const [lab, setLab] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [title, setTitle] = React.useState('');
-    const [duration, setDuration] = React.useState('');
+    const [firstNameField, setFirstNameField] = React.useState({
+        firstName: '',
+        errorState: false
+    });
+    const [lastNameField, setLastNameField] = React.useState({
+        lastName: '',
+        errorState: false
+    });
+    const [emailField, setEmailField] = React.useState({
+        email: '',
+        errorState: false
+    });
+    const [cwlField, setCwlField] = React.useState({
+        cwl: '',
+        errorState: false
+    })
+    const [titleField, setTitleField] = React.useState({
+        title: '',
+        errorState: false
+    })
+    const [labField, setLabField] = React.useState({
+        lab: '',
+        errorState: false,
+        otherLabDisabled: true
+    })
+    const [durationField, setDurationField] = React.useState({
+        duration: '',
+        errorState: false
+    })
+
 
     const [submitStatus, setSubmitStatus] = React.useState(false);
     const [toHome, setToHome] = React.useState(false);
-    const [otherLabInputStatus, setOtherLabInputStatus] = React.useState(Boolean(true));
 
     var labOfficeOptions = [];
 
     function sendOffEmail() {
         let data = new FormData();
-        data.append('to' , 'itsupport@microbiology.ubc.ca');
-        // data.append('to' , 'eric.lee@ubc.ca');
+        // data.append('to' , 'itsupport@microbiology.ubc.ca');
+        data.append('to' , 'eric.lee@ubc.ca');
 
         data.append('subject', 'New M&I Account Request');
-        // var body = `Details on new Email Request: \r\n' + 'First Name: '+${firstName} + '\r\n' + 'Last Name: ' +  ${lastName} + '\r\n' + 'Lab: ' ${lab}`
-        // body = encodeURIComponent(body);
-        // var body = 'hello <br> world <br> yellow';
         const body = `You have a new email request.  Details: <br><br> <b>First Name:</b> ${firstName} <br> <b>Last Name:</b> ${lastName} <br> <b>Lab:</b> ${lab} <br><br> Log onto <a href="http://142.103.60.10:1337/admin/">strapi admin</a> for more details.`;
         data.append('text' , body);
 
@@ -101,72 +120,127 @@ export default function AccountRequestForm() {
     if (data) {
         let labValues = [];
         labValues = data.labs.map(lab => ({text: (lab.name + ' Lab') , value: lab.name}));
-        // console.log(labValues);
         labOfficeOptions = labValues;
         labOfficeOptions.push({ text: 'Other...', value: 'Other' })
     }
 
     function setLab2(e, result) {
         if (result.value === 'Other') {
-            setOtherLabInputStatus(Boolean(false));
+            // setOtherLabInputStatus(Boolean(false));
+            setLabField({
+                ...labField,
+                otherLabDisabled:false,
+                errorState:false
+            })
         } else {
             const otherFieldInput = document.getElementById('other_input');
             otherFieldInput.value = '';
-            console.log(lab);
-            setOtherLabInputStatus(Boolean(true));
-            setLab(result.value);
-        }
+            // console.log(lab);
+            // setOtherLabInputStatus(Boolean(true));
+            // setLab(result.value);
+            setLabField({
+                ...labField,
+                lab: result.value,
+                otherLabDisabled:true,
+                errorState:false
 
+            })
+        }
     }
+
+    function setField(field, fieldFunction, e) {
+        fieldFunction({
+            ...field,
+            [e.target.name]:e.target.value,
+            errorState:false
+        })
+    }
+
+
 
 
     return (
         <div>
             <h3>Send us a request for a M&I Account:</h3>
+            { (firstNameField.errorState || lastNameField.errorState || emailField.errorState || cwlField.errorState || titleField.errorState || labField.errorState ||durationField.errorState) &&
+                <h4 class="ui red header">Please fill in all required fields</h4>
+            }
             <Form>
                 <Form.Group>
-                    <Form.Input label='First name' placeholder='First name' name='firstname' onChange={(e) => {setFirstName(e.target.value)}}/>
-                    <Form.Input label='Last name' placeholder='Last name' name='lastname'onChange={(e) => {setLastName(e.target.value)}}/>
+                    {/* <Form.Input label='First name' placeholder='First name' name='firstname' onChange={(e) => {setFirstName(e.target.value)}}/>
+                    <Form.Input label='Last name' placeholder='Last name' name='lastname'onChange={(e) => {setLastName(e.target.value)}}/> */}
+                    {firstNameField.errorState ? 
+                        <Form.Input error label='First name' placeholder='First name' name='firstName' onChange={(e) => {setField(firstNameField, setFirstNameField, e)}}/> 
+                        : <Form.Input label='First name' placeholder='First name' name='firstName' onChange={(e) => {setField(firstNameField, setFirstNameField, e)}}/>
+                    }
+                    {lastNameField.errorState ? 
+                        <Form.Input error label='Last name' placeholder='Last name' name='lastName' onChange={(e) => {setField(lastNameField, setLastNameField, e)}}/> 
+                        : <Form.Input label='Last name' placeholder='Last name' name='lastName' onChange={(e) => {setField(lastNameField, setLastNameField, e)}}/>
+                    }                    
                 </Form.Group>
                 <Form.Group>
-                    <Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setEmail(e.target.value)}}/>
+                    {emailField.errorState ? 
+                        <Form.Input error label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setField(emailField, setEmailField, e)}}/> 
+                        :<Form.Input label='Email' placeholder='example@ubc.ca' name='email' onChange={(e) => {setField(emailField, setEmailField, e)}}/> 
+                    }   
                 </Form.Group>
                 <Form.Group>
-                    <Form.Input label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={(e) => {setCwl(e.target.value)}}/>
+                    {cwlField.errorState ? 
+                        <Form.Input error label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={(e) => {setField(cwlField, setCwlField, e)}}/> 
+                        :<Form.Input label='CWL Username' placeholder='Your CWL username' name='cwl' onChange={(e) => {setField(cwlField, setCwlField, e)}}/> 
+                    }   
                 </Form.Group>                            
                 <Form.Group>
-                    <Form.Select label='Title' options={titleOptions} placeholder='Select' name='title' onChange={(e, result) => {setTitle(result.value)}} />
+                    {titleField.errorState ? 
+                        <Form.Select error label='Title' options={titleOptions} placeholder='Select' name='title' onChange={(e) => {setField(titleField, setTitleField, e)}}/> 
+                        :<Form.Select label='Title' options={titleOptions} placeholder='Select' name='title' onChange={(e) => {setField(titleField, setTitleField, e)}}/>                         
+                    }   
                 </Form.Group>
                 <Form.Group>
-                    <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab2(e, result)}}/>
-                    <Form.Input id="other_input" disabled={otherLabInputStatus} label='Other Lab' placeholder='Other Lab...' onChange={(e) => {setLab(e.target.value)}}/>
+                    {/* <Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab2(e, result)}}/> */}
+                    {labField.errorState ? 
+                        <Form.Select error label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab2(e, result)}}/>
+                        :<Form.Select label='Lab' options={labOfficeOptions} placeholder='Select' name='lab' onChange={(e, result) => {setLab2(e, result)}}/>
+                    }                       
+                    <Form.Input id="other_input" disabled={labField.otherLabDisabled} label='Other Lab' name='lab' placeholder='Other Lab...' onChange={(e) => {setField(labField, setLabField)}}/>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Select label='Duration of Stay' options={durationLength} placeholder='Select' onChange={(e, result) => {setDuration(result.value)}}/>
+                    {durationField.errorState ? 
+                        <Form.Select error label='Duration of Stay' options={durationLength} placeholder='Select' name='duration' onChange={(e) => {setField(durationField, setDurationField, e)}}/> 
+                        :<Form.Select label='Duration of Stay' options={durationLength} placeholder='Select' name='duration' onChange={(e) => {setField(durationField, setDurationField, e)}}/> 
+                    }   
                 </Form.Group>                          
             </Form>
+
             <Mutation 
                 mutation={CREATE_ACCOUNT_REQUEST} 
                     variables={{
-                        firstname: String(firstName), 
-                        lastname: String(lastName), 
-                        email: String(email),
-                        lab: String(lab),
-                        cwl: String(cwl),
-                        title: String(title),
-                        duration: String(duration),
+                        firstname: String(firstNameField.firstName), 
+                        lastname: String(lastNameField.lastName), 
+                        email: String(emailField.email),
+                        cwl: String(cwlField.cwl),
+                        title: String(titleField.title),
+                        lab: String(labField.lab),
+                        duration: String(durationField.duration),
                     }}
                     onCompleted={() => { setSubmitStatus(true)}}
-                >
-                    {(createAccountrequest) => (
-                        <Button onClick={() => {
-                            createAccountrequest()
-                            sendOffEmail();
-                        }}>
-                            Submit
-                        </Button>
-                    )}
-                </Mutation>
+            >
+                {(createAccountrequest) => (
+                    <Button onClick={() => {
+                        // createAccountrequest()
+                        // sendOffEmail();
+                        if(firstNameField.firstName === '') setFirstNameField({...firstNameField, errorState:true});
+                        if(lastNameField.lastName === '') setLastNameField({...lastNameField, errorState:true});
+                        if(emailField.email === '') setEmailField({...emailField, errorState:true});
+                        if(cwlField.cwl === '') setCwlField({...cwlField, errorState:true});
+                        if(titleField.title === '') setTitleField({...titleField, errorState: true});
+                        if(labField.lab === '') setLabField({...labField, errorState:true});
+                        if(durationField.duration === '') setDurationField({...durationField , errorState:true});
+                    }}>
+                        Submit
+                    </Button>
+                )}
+            </Mutation>
             <Confirm 
                 open={submitStatus}
                 content='Thank You. We have received your request!'
